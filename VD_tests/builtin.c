@@ -16,11 +16,17 @@
 int is_builtin(char **args)
 {
 	builtin_t builtins[] = {
-		{ "exit", shell_exit },
 		{ "env", print_env },
 		{ NULL, NULL }
 	}; /* Array of structures containing the builtin function names */
 	int index;
+
+	if (strcmp(args[0], "exit") == 0)
+	{
+		if (args[1] == NULL)
+			return (-2);
+		return (_atoi(args[1]));
+	}
 
 	for (index = 0; builtins[index].command != NULL; index++)
 	{
@@ -31,29 +37,6 @@ int is_builtin(char **args)
 		}
 	}
 	return (-1); /* No matching name found */
-}
-
-/**
- * shell_exit - Built-in function to quit the program.
- *
- * Description: This function checks for an error number and quit the program.
- *
- * @option: The number passed to the function - in a string.
- *
- * Return: nothing (void).
- */
-
-void shell_exit(char *option)
-{
-	int status;
-
-	if (option == NULL)
-	{
-		status = errno; /* Pass the current error code with exit */
-	}
-	else
-		status = _atoi(option);
-	exit(status); /* Pass the given error code with exit */
 }
 
 /**
