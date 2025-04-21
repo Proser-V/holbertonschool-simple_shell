@@ -48,7 +48,11 @@ int main(int argc, char *argv[])
 			execute(args, command_count, argv[0], &exit_status);
 			/* Execute the command if found */
 			if (exit_status != 0 && (strcmp(args[0], "exit") == 0))
+			{
+				free(args);
+				free(line);
 				break;  /* Exit the loop if exit command was called */
+			}
 			free(args);
 			free(line);
 		}
