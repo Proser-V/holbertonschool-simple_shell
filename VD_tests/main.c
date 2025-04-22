@@ -36,8 +36,7 @@ int main(int argc, char *argv[])
 		line = read_line(); /* Get the line from the standard input */
 		if (line == NULL) /* EOF (Ctrl+D) */
 		{
-			if (isatty(STDIN_FILENO))
-				printf("\n");
+			if (isatty(STDIN_FILENO == 1))
 			break;
 		}
 		command_count++; /* Count the number of command passed */
@@ -56,6 +55,8 @@ int main(int argc, char *argv[])
 			free(args);
 			free(line);
 		}
+		if (isatty(STDIN_FILENO) == 0)
+			break;
 	}
 	return (exit_status);
 }
