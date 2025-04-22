@@ -37,7 +37,7 @@ int handle_builtin(char **args, int *exit_status)
  *              continue.
  *
  * @args: Tokenized string passed by the user.
- * @cmd_count: The number of command passed to the program.
+ * @cmd_count: The number of commands passed to the program.
  * @nom_prog: The name of the program (Shell) from main.
  * @exit_status: Pointer to the exit status to set.
  *
