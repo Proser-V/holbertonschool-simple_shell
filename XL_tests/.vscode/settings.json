@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"stdlib.h": "c",
+		"xl_main.h": "c",
+		"stdio.h": "c"
+	}
+}
