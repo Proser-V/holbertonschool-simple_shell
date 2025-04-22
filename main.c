@@ -50,9 +50,7 @@ int main(int argc, char *argv[])
 					free(line);
 					return (exit_status);
 				} /* Exit the loop if "exit" called without argument */
-				exit_status = exit_built(args, command_count, argv[0]);
-				free(args);
-				free(line);
+				exit_status = exit_built(line, args, command_count, argv[0]);
 				continue; /* Continue the loop if error while "exit" */
 			}
 			execute(args, command_count, argv[0], &exit_status);

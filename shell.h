@@ -41,7 +41,7 @@ char *find_command_path(char *command);
 
 /* Built-in command prototypes */
 void print_env(char *option);
-int exit_built(char **args, int cmd_count, char *nom_prog);
+int exit_built(char *line, char **args, int cmd_count, char *nom_prog);
 
 /* Helpers */
 int is_builtin(char **args);

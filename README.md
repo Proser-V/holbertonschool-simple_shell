@@ -32,13 +32,15 @@ It could be improved by :
 ## Exemples and testing
 Here are some exemples of the use of our shell :
 
-```valentin@Valou-PC:~/holbertonschool-simple_shell$ ./hsh
+```
+valentin@Valou-PC:~/holbertonschool-simple_shell$ ./hsh
 $ ls
 README.md  Shared_diagram-VD.jpg  VD_tests  builtin.c  exec.c  generate-authors.sh  helper.c  hsh  main.c  path.c  read.c  shell  shell.h  split.c
 $ pwd
 /home/valentin/holbertonschool-simple_shell
 $ exit
-valentin@Valou-PC:~/holbertonschool-simple_shell$ ```
+valentin@Valou-PC:~/holbertonschool-simple_shell$
+```
 
 ## Man page
 The man page provides a detailed explanation of the function. To see the full documentation, run our man page like this: ```man hsh```
