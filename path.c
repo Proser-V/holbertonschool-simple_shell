@@ -16,7 +16,7 @@
 char *find_command_path(char *command)
 {
 	char *path, *path_cpy = NULL, *dir;
-	char buff[1024];
+	char buff[1024]; /* Local buffer */
 	int index = 0;
 
 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
@@ -43,8 +43,8 @@ char *find_command_path(char *command)
 		if (access(buff, F_OK | X_OK) == 0) /* Command found */
 		{
 			free(path_cpy);
-			return (strdup(buff));
-		}
+			return (strdup(buff)); /* Memory allocated dynamicaly for buff */
+		} /* Return a copy of the full path of the command */
 		dir = strtok(NULL, ":");
 	}
 	free(path_cpy);

@@ -17,18 +17,18 @@ char **split_line(char *line)
 {
 	char **args;
 	int index = 0;
-	int token_buffer = 1;
+	int token_number = 1;
 
 	char *line2;
 	char *line2_ptr;
 
-	line2 = strdup(line);
+	line2 = strdup(line); /* Count the number of tokens to store */
 	line2_ptr = strtok(line2, SHELL_TOKEN_DELIM);
-	for (token_buffer = 1; line2_ptr != NULL; ++token_buffer)
+	for (token_number = 1; line2_ptr != NULL; ++token_number)
 		line2_ptr = strtok(NULL, SHELL_TOKEN_DELIM);
 	free(line2);
 
-	args = malloc(sizeof(char *) * token_buffer);
+	args = malloc(sizeof(char *) * token_number);
 	if (args == NULL) /* Memory allocation for the array of strings */
 	{
 		perror("allocation failed");

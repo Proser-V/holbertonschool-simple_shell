@@ -36,11 +36,12 @@ typedef struct builtin
 /* Backbone prototypes */
 char *read_line(void);
 char **split_line(char *line);
-int execute(char **args, int cmd_count, char *nom_prog, int *exit_status);
+void execute(char **args, int cmd_count, char *nom_prog, int *exit_status);
 char *find_command_path(char *command);
 
 /* Built-in command prototypes */
 void print_env(char *option);
+int exit_built(char **args, int cmd_count, char *nom_prog);
 
 /* Helpers */
 int is_builtin(char **args);

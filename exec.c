@@ -16,13 +16,10 @@ int handle_builtin(char **args, int *exit_status)
 	builtin_status = is_builtin(args);
 	if (builtin_status != -1) /* Check if the command is built-in */
 	{
-		if (builtin_status == -2) /* If "exit" as input with no argument */
-			return (*exit_status); /* No change for exit status */
-
-		*exit_status = builtin_status;
+		*exit_status = builtin_status; /* 0 if execution with no error */
 		return (*exit_status); /* New exit code passed to main */
 	}
-	return (0);  /* No built-in found */
+	return (-1);  /* No built-in found */
 }
 
 /**
@@ -44,32 +41,30 @@ int handle_builtin(char **args, int *exit_status)
  * Return: 1 on succes execution, -1 on error.
  */
 
-int execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
+void execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 {
 	pid_t pid; /* The ID of the process */
 	char *command_path;
 	int pid_status;
 
-	if (handle_builtin(args, exit_status) != 0)
-		return (*exit_status);
-	else if (strcmp(args[0], "exit") == 0)
-		return (0);
-
+	if (handle_builtin(args, exit_status) != -1)
+		return; /* Executed built-in return to main */
+	/* No built-in, go check for command path */
 	command_path = find_command_path(args[0]); /* Check if the command exist */
 	if (command_path == NULL) /* Command not found */
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", nom_prog, cmd_count, args[0]);
 		*exit_status = 127; /* Set the value return of exit */
-		return (*exit_status);
+		return;
 	}
 
 	pid = fork(); /* Command found, process duplication */
 	if (pid == -1) /* Duplication error */
 	{
 		perror("fork");
-		*exit_status = 1;
+		*exit_status = 1; /* Standard error value */
 		free(command_path);
-		return (-1);
+		return;
 	}
 	if (pid == 0) /* The current process is the child */
 	{
@@ -80,10 +75,10 @@ int execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 		}
 	}
 	waitpid(pid, &pid_status, 0); /* Wait for the child to ends */
-	if (WIFEXITED(pid_status) == 1)
-		*exit_status = WEXITSTATUS(pid_status);
+	if (WIFEXITED(pid_status) == 1) /* Normal child ending is true? */
+		*exit_status = WEXITSTATUS(pid_status); /* return child exit status */
 	else
-		*exit_status = 1;
+		*exit_status = 1; /* Else, standard error value */
 	free(command_path);
-	return (0); /* Successfull execution */
+	return; /* Successfull father process execution */
 }

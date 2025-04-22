@@ -21,7 +21,7 @@ char *read_line(void)
 		perror("allocation failed");
 		exit(errno);
 	}
-	errno_tmp = errno;
+	errno_tmp = errno; /* store errno in a temporary variable */
 	errno = 0; /* Set errno to 0 to isolate EOF management from getline */
 	if (getline(&line, &buff_size, stdin) == -1) /* Put the line in a buffer */
 	{ /* and checks for errors */
@@ -31,11 +31,11 @@ char *read_line(void)
 			free(line);
 			exit(errno);
 		}
-		errno = errno_tmp;
+		errno = errno_tmp; /* errno set as before */
 		printf("\n");
 		free(line);
 		return (NULL);
 	}
-	errno = errno_tmp;
+	errno = errno_tmp; /* errno set as before */
 	return (line);
 }

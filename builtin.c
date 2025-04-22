@@ -21,13 +21,6 @@ int is_builtin(char **args)
 	}; /* Array of structures containing the builtin function names */
 	int index;
 
-	if (strcmp(args[0], "exit") == 0)
-	{
-		if (args[1] == NULL)
-			return (-2);
-		return (_atoi(args[1]));
-	}
-
 	for (index = 0; builtins[index].command != NULL; index++)
 	{
 		if (strcmp(args[0], builtins[index].command) == 0)

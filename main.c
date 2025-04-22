@@ -42,19 +42,25 @@ int main(int argc, char *argv[])
 		args = split_line(line); /* Tokenize the line */
 		if (args != NULL && args[0] != NULL)
 		{
-			execute(args, command_count, argv[0], &exit_status);
-			/* Execute the command if found */
-			if (strcmp(args[0], "exit") == 0)
+			if (strcmp(args[0], "exit") == 0) /* Exit called ? */
 			{
+				if (args[1] == NULL) /* Exit without argument */
+				{
+					free(args);
+					free(line);
+					return (exit_status);
+				} /* Exit the loop if "exit" called without argument */
+				exit_status = exit_built(args, command_count, argv[0]);
 				free(args);
 				free(line);
-				break;  /* Exit the loop if exit command was called */
+				continue; /* Continue the loop if error while "exit" */
 			}
+			execute(args, command_count, argv[0], &exit_status);
 		}
 		free(args);
 		free(line);
 		if (isatty(STDIN_FILENO) == 0)
-			break;
+			break; /* End the non-interractive mode */
 	}
 	return (exit_status);
 }
