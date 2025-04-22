@@ -33,7 +33,7 @@ int is_builtin(char **args)
 		if (strcmp(args[0], builtins[index].command) == 0)
 		{ /* Compare the text passed by the user to the correct input name */
 			builtins[index].func(args[1]);
-			return (1); /* Same name found, execute the matching function */
+			return (0); /* Same name found, execute the matching function */
 		}
 	}
 	return (-1); /* No matching name found */

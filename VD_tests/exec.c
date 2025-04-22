@@ -16,9 +16,6 @@ int handle_builtin(char **args, int *exit_status)
 	builtin_status = is_builtin(args);
 	if (builtin_status != -1) /* Check if the command is built-in */
 	{
-		if (builtin_status == -2) /* If "exit" as input with no argument */
-			return (*exit_status); /* No change for exit status */
-
 		*exit_status = builtin_status;
 		return (*exit_status); /* New exit code passed to main */
 	}
@@ -58,7 +55,7 @@ int execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", nom_prog, cmd_count, args[0]);
 		*exit_status = 127; /* Set the value return of exit */
-		return (*exit_status);
+		return (7465);
 	}
 
 	pid = fork(); /* Command found, process duplication */
@@ -77,7 +74,6 @@ int execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	waitpid(pid, &pid_status, 0); /* Wait for the child to ends */
 	if (WIFEXITED(pid_status) == 1)
 		*exit_status = WEXITSTATUS(pid_status);

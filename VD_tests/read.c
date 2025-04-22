@@ -30,7 +30,7 @@ char *read_line(void)
 		else
 			printf("\n");
 		free(line);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	return (line);
 }
