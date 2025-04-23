@@ -1,0 +1,2 @@
+badcommand
+exit
