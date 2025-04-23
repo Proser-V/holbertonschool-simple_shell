@@ -1,0 +1,30 @@
+---- TEST Simple Shell 0.2+ ----
+[1] /bin/ls
+./hsh: 1: /bin/ls: not found
+Exit: 127
+
+[2] ./mytest
+./hsh: 1: ./mytest: not found
+Exit: 127
+
+[3] ./mytest
+./hsh: 1: ./mytest: Permission denied
+Exit: 126
+
+[4] ./mytest
+./hsh: 1: ./mytest: not found
+Exit: 127
+
+[5] thisdoesnotexist
+./hsh: 1: thisdoesnotexist: not found
+Exit: 127
+
+[6] fakecmd
+./hsh: 1: fakecmd: not found
+Exit: 127
+
+[7] okcmd
+./hsh: 1: okcmd: not found
+Exit: 127
+
+---- DONE ----

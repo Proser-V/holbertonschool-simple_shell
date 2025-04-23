@@ -1,6 +1,34 @@
 #include "shell.h"
 
 /**
+ * relative_path - Helper to handle relative path for find_command_path.
+ *
+ * @command: The first argument from the input - the command passed.
+ * @exit_status: Pointer to the exit status to set.
+ *
+ * Return: A pointer to a string containing the relative path or NULL
+ *         if the command was not found or permission denied.
+ */
+
+char *relative_path(char *command, int *exit_status)
+{
+	if (command[0] == '/' || command[0] == '.')
+	{
+		if (access(command, F_OK) == 0) /* File found */
+		{
+			if (access(command, X_OK) == 0) /* Executable command found */
+				return (command);
+			*exit_status = 126; /* File found but permission denied */
+		}
+		else /* File not found */
+		{
+			*exit_status = 127;
+		}
+	}
+	return (NULL);
+}
+
+/**
  * find_command_path - A function that find if a command exist.
  *
  * Description: This function checks if the command passed is in the "PATH"
@@ -19,25 +47,13 @@ char *find_command_path(char *command, int *exit_status)
 	char *path, *dir;
 	char buff[1024]; /* Local buffer */
 
-	if (command[0] == '/' || command[0] == '.')
-	{
-		if (access(command, F_OK) == 0) /* File found */
-		{
-			if (access(command, X_OK) == 0) /* Executable command found */
-				return (strdup(command));
-			*exit_status = 126; /* File found but permission denied */
-			return (NULL);
-		}
-		else /* File not found */
-		{
-			*exit_status = 127;
-			return (NULL);
-		}
-	}
+	if (relative_path(command, exit_status) != NULL)
+		return (strdup(command));
+
 	path = _getpath(); /* Get the PATH string */
 	if (path == NULL || path[0] == '\0')
 	{
-		free(path);
+		*exit_status = 127;
 		return (NULL);
 	}
 	dir = strtok(path, ":"); /* Tokenize the PATH directories */
@@ -47,13 +63,20 @@ char *find_command_path(char *command, int *exit_status)
 		strcat(buff, "/");
 		strcat(buff, command);
 		errno = 0; /* errno set to 0 in loop to avoid making a false error */
-		if (access(buff, F_OK | X_OK) == 0) /* Command found */
+		if (access(buff, F_OK) == 0) /* File found */
 		{
+			if (access(buff, X_OK) == 0) /* Executable command found */
+			{
+				free(path);
+				return (strdup(buff));
+			}
+			*exit_status = 126; /* File found but permission denied */
 			free(path);
-			return (strdup(buff)); /* Memory allocated dynamicaly for buff */
-		} /* Return a copy of the full path of the command */
+			return (NULL);
+		}
 		dir = strtok(NULL, ":");
 	}
 	free(path);
+	*exit_status = 127;
 	return (NULL); /* Command not found */
 }

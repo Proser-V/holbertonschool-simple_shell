@@ -1,0 +1,45 @@
+---- TEST Simple Shell 0.2+ ----
+[1] /bin/ls
+AUTHORS
+README.md
+Shared_diagram-VD.jpg
+Test
+builtin.c
+exec.c
+helper.c
+hsh
+main.c
+man_simple_shell
+path.c
+read.c
+results.log
+shell.h
+split.c
+test_shell_02.sh
+Exit: 0
+
+[2] ./mytest
+hello
+Exit: 0
+
+[3] ./mytest
+./hsh: 1: ./mytest: not found
+Exit: 127
+
+[4] ./mytest
+./hsh: 1: ./mytest: not found
+Exit: 127
+
+[5] thisdoesnotexist
+./hsh: 1: thisdoesnotexist: not found
+Exit: 127
+
+[6] fakecmd
+./hsh: 1: fakecmd: Permission denied
+Exit: 126
+
+[7] okcmd
+okay
+Exit: 0
+
+---- DONE ----

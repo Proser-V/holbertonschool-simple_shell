@@ -88,20 +88,18 @@ char *_getpath(void)
 	char *final_path = NULL;
 	int index = 0;
 
-	while (strncmp(environ[index], "PATH", 4) != 0)
-	{
-		if (environ[index] == NULL)
-		{
-			return (NULL);
-		}
+	while (strncmp(environ[index], "PATH=", 5) != 0 && environ[index] != NULL)
 		index++;
-	}
+
+	if (environ[index] == NULL)
+		return (NULL);
+
 	env_path = strdup(environ[index]);
 
 	path_cpy = strtok(env_path, "=");
 	path_cpy = strtok(NULL, "=");
 
-	if (path_cpy != NULL)
+	if (path_cpy != NULL && path_cpy[0] != '\0')
 		final_path = strdup(path_cpy);
 
 	free(env_path);
