@@ -74,3 +74,64 @@ int isposnumber(char *num_str)
 	else
 		return (0);
 }
+
+/**
+ * _getpath - find the string contained in PATH environement variable
+ *
+ * Return: the PATH string
+ */
+
+char *_getpath(void)
+{
+	char *env_path = NULL;
+	char *path_cpy = NULL;
+	char *final_path = NULL;
+	int index = 0;
+
+	while (strncmp(environ[index], "PATH", 4) != 0)
+	{
+		if (environ[index] == NULL)
+		{
+			return (NULL);
+		}
+		index++;
+	}
+	env_path = strdup(environ[index]);
+
+	path_cpy = strtok(env_path, "=");
+	path_cpy = strtok(NULL, "=");
+
+	if (path_cpy != NULL)
+		final_path = strdup(path_cpy);
+
+	free(env_path);
+	return (final_path);
+}
+
+/**
+ * print_error - helper to print errors from path and access
+ *
+ * @args: Tokenized string passed by the user.
+ * @cmd_count: The number of commands passed to the program.
+ * @nom_prog: The name of the program (Shell) from main.
+ * @exit_status: Pointer to the exit status to set.
+ *
+ * Return: nothing (void)
+ */
+
+void print_error(char **args, int cmd_count, char *nom_prog, int *exit_status)
+{
+	if (*exit_status == 126) /* Permission denied */
+	{
+		fprintf(stderr, "%s: %d: %s: Permission denied\n",
+			nom_prog, cmd_count, args[0]);
+		return;
+	}
+	else /* Not found */
+	{
+		fprintf(stderr, "%s: %d: %s: not found\n", nom_prog, cmd_count, args[0]);
+		*exit_status = 127; /* Set the value return of exit */
+		return;
+	}
+}
+

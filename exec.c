@@ -27,15 +27,12 @@ void execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 
 	if (handle_builtin(args, exit_status) != -1)
 		return; /* Executed built-in return to main */
-	/* No built-in, go check for command path */
-	command_path = find_command_path(args[0]); /* Check if the command exist */
+	command_path = find_command_path(args[0], exit_status);
 	if (command_path == NULL) /* Command not found */
 	{
-		fprintf(stderr, "%s: %d: %s: not found\n", nom_prog, cmd_count, args[0]);
-		*exit_status = 127; /* Set the value return of exit */
+		print_error(args, cmd_count, nom_prog, exit_status);
 		return;
 	}
-
 	pid = fork(); /* Command found, process duplication */
 	if (pid == -1) /* Duplication error */
 	{
@@ -45,14 +42,12 @@ void execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 		return;
 	}
 	if (pid == 0) /* The current process is the child */
-	{
 		if ((execve(command_path, args, environ)) == -1)
 		{
 			perror("execve");
 			free(command_path);
 			exit(EXIT_FAILURE);
 		}
-	}
 	waitpid(pid, &pid_status, 0); /* Wait for the child to ends */
 	if (WIFEXITED(pid_status) == 1) /* Normal child ending is true? */
 		*exit_status = WEXITSTATUS(pid_status); /* return child exit status */
