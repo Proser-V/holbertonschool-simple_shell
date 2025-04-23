@@ -1,28 +1,6 @@
 #include "shell.h"
 
 /**
- * handle_builtin - Helper function to handle built-in commands.
- *
- * @args: Tokenized command arguments.
- * @exit_status: Pointer to the exit status to set.
- *
- * Return: 0 if no built-in command is found, else the exit status.
- */
-
-int handle_builtin(char **args, int *exit_status)
-{
-	int builtin_status;
-
-	builtin_status = is_builtin(args);
-	if (builtin_status != -1) /* Check if the command is built-in */
-	{
-		*exit_status = builtin_status; /* 0 if execution with no error */
-		return (*exit_status); /* New exit code passed to main */
-	}
-	return (-1);  /* No built-in found */
-}
-
-/**
  * execute - A function that execute the command passed.
  *
  * Description: This function checks if the command passed is in the "PATH"
@@ -71,6 +49,7 @@ void execute(char **args, int cmd_count, char *nom_prog, int *exit_status)
 		if ((execve(command_path, args, environ)) == -1)
 		{
 			perror("execve");
+			free(command_path);
 			exit(EXIT_FAILURE);
 		}
 	}
