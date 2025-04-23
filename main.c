@@ -1,6 +1,21 @@
 #include "shell.h"
 
 /**
+ * print_prompt - helper function to print a prompt
+ *
+ * Return: nothing (void)
+ */
+
+void print_prompt(void)
+{
+	if (isatty(STDIN_FILENO) == 1) /* Check for interactive mode = yes */
+	{
+		printf("$ "); /* Prompt to print */
+		fflush(stdout); /* Force immediate display of the prompt */
+	}
+}
+
+/**
  * main - Entry point to a simple shell program.
  *
  * Description: This program can be used to interactively execute commands and
@@ -30,11 +45,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO) == 1) /* Check for interactive mode = yes */
-		{
-			printf("$ "); /* Prompt to print */
-			fflush(stdout); /* Force immediate display of the prompt */
-		}
+		print_prompt();
 		line = read_line(); /* Get the line from the standard input */
 		if ((line == NULL) && (isatty(STDIN_FILENO) == 1)) /* EOF (Ctrl+D) */
 			break;
@@ -51,7 +62,9 @@ int main(int argc, char *argv[])
 					return (exit_status);
 				} /* Exit the loop if "exit" called without argument */
 				exit_status = exit_built(line, args, command_count, argv[0]);
-				continue; /* Continue the loop if error while "exit" */
+				if (isatty(STDIN_FILENO) == 0) /* if error while "exit" */
+					break; /* End the non-interractive mode */
+				continue; /* Else, continue the loop */
 			}
 			execute(args, command_count, argv[0], &exit_status);
 		}

@@ -134,4 +134,3 @@ void print_error(char **args, int cmd_count, char *nom_prog, int *exit_status)
 		return;
 	}
 }
-
