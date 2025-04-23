@@ -1,5 +1,7 @@
 *.exe
 *.out
 *.sh
+.vscode
+
 *.txt
 hsh
