@@ -21,15 +21,18 @@ char *find_command_path(char *command, int *exit_status)
 
 	if (command[0] == '/' || command[0] == '.')
 	{
-		if (access(command, F_OK | X_OK) == 0) /* Executable command found */
-			return (strdup(command));
-		else if (access(command, F_OK) == 0 && (access(command, X_OK) != 0))
+		if (access(command, F_OK) == 0) /* File found */
 		{
-			*exit_status = 126;
-			return (NULL); /* Set the error here to make difference with 127 */
-		}
-		else /* Command not found */
+			if (access(command, X_OK) == 0) /* Executable command found */
+				return (strdup(command));
+			*exit_status = 126; /* File found but permission denied */
 			return (NULL);
+		}
+		else /* File not found */
+		{
+			*exit_status = 127;
+			return (NULL);
+		}
 	}
 	path = _getpath(); /* Get the PATH string */
 	if (path == NULL || path[0] == '\0')
