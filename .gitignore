@@ -3,4 +3,5 @@
 *.sh
 .vscode
 
+*.txt
 hsh

@@ -7,38 +7,37 @@
  *              directories and if it is executable.
  *
  * @command: The first argument from the input - the command passed.
+ * @exit_status: Pointer to the exit status to set.
  *
  * Return: A pointer to a string containing the absolute path of the command
  *         to execute. The command if an absolute path or an executable was
  *         passed in the input. Or NULL if the command was not found.
  */
 
-char *find_command_path(char *command)
+char *find_command_path(char *command, int *exit_status)
 {
-	char *path, *path_cpy = NULL, *dir;
+	char *path, *dir;
 	char buff[1024]; /* Local buffer */
-	int index = 0;
 
 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
 	{
-		if (access(command, F_OK | X_OK) == 0) /* Command found */
+		if (access(command, F_OK | X_OK) == 0) /* Executable command found */
 			return (strdup(command));
-		else
+		else if (access(command, F_OK) == 0 && (access(command, X_OK) != 0))
+		{
+			*exit_status = 126;
+			return (NULL); /* Set the error here to make difference with 127 */
+		}
+		else /* Command not found */
 			return (NULL);
 	}
-	/* Return the command if the command passed already have an absolute path */
-	/* or if it is already an executable */
-	path = "PATH="; /* getenv rewrite */
-	while (strncmp(environ[index], path, 5) != 0)
-		index++;
-
-	path = environ[index];
-	for (index = 0; index < 5; index++)
-		path++;
-	path_cpy = strdup(path); /* getenv end */
-
-	dir = strtok(path_cpy, ":"); /* Tokenize the PATH directories */
-
+	path = _getpath(); /* Get the PATH string */
+	if (path == NULL)
+	{
+		free(path);
+		return (NULL);
+	}
+	dir = strtok(path, ":"); /* Tokenize the PATH directories */
 	while (dir != NULL) /* Check if the command is found in each directory */
 	{
 		strcpy(buff, dir);
@@ -47,11 +46,11 @@ char *find_command_path(char *command)
 		errno = 0; /* errno set to 0 in loop to avoid making a false error */
 		if (access(buff, F_OK | X_OK) == 0) /* Command found */
 		{
-			free(path_cpy);
+			free(path);
 			return (strdup(buff)); /* Memory allocated dynamicaly for buff */
 		} /* Return a copy of the full path of the command */
 		dir = strtok(NULL, ":");
 	}
-	free(path_cpy);
+	free(path);
 	return (NULL); /* Command not found */
 }

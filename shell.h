@@ -26,7 +26,6 @@ extern char **environ;
  * @func: A pointer to the matching function to call.
  *
  */
-
 typedef struct builtin
 {
 	char *command;
@@ -37,7 +36,7 @@ typedef struct builtin
 char *read_line(void);
 char **split_line(char *line);
 void execute(char **args, int cmd_count, char *nom_prog, int *exit_status);
-char *find_command_path(char *command);
+char *find_command_path(char *command, int *exit_status);
 
 /* Built-in command prototypes */
 void print_env(char *option);
@@ -48,5 +47,7 @@ int is_builtin(char **args);
 int isposnumber(char *num_str);
 int _atoi(char *s);
 int handle_builtin(char **args, int *exit_status);
+char *_getpath(void);
+void print_error(char **args, int cmd_count, char *nom_prog, int *exit_status);
 
 #endif
