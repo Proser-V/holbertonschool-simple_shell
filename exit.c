@@ -1,6 +1,24 @@
 #include "shell.h"
 
 /**
+ * isposnumber - determines if a string is a positive number
+ * @num_str: input string to examine
+ * Return: 0 if it is not a positive number, 1 if it is
+ */
+
+int isposnumber(char *num_str)
+{
+	size_t i = 0;
+
+	while (num_str[i] >= '0' && num_str[i] <= '9' && num_str[i] != '\0')
+		++i;
+	if (strlen(num_str) == i)
+		return (1);
+	else
+		return (0);
+}
+
+/**
  * exit_built - A built-in command for exit.
  *
  * @line: Pointer to the input string.
@@ -21,8 +39,7 @@ int exit_built(char *line, char **args, int cmd_count, char *nom_prog)
 		free(line);
 		exit(code);
 	}
-	code = _atoi(args[1]); /* Get a number from argument passed with exit */
-	if (code == 0) /* If no number in the argument */
+	if (isposnumber(args[1]) == 0) /* If it is not a positive number */
 	{
 		fprintf(stderr, "%s: %d: %s: Illegal number: %s\n"
 			, nom_prog, cmd_count, args[0], args[1]);
@@ -30,6 +47,7 @@ int exit_built(char *line, char **args, int cmd_count, char *nom_prog)
 		free(line);
 		return (2); /* error code 2 returned */
 	}
+	code = _atoi(args[1]); /* Get a number from argument passed with exit */
 	free(args);
 	free(line);
 	exit(code); /* exit with the code passed by the user */

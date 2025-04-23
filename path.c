@@ -20,7 +20,12 @@ char *find_command_path(char *command)
 	int index = 0;
 
 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
-		return (command);
+	{
+		if (access(command, F_OK | X_OK) == 0) /* Command found */
+			return (strdup(command));
+		else
+			return (NULL);
+	}
 	/* Return the command if the command passed already have an absolute path */
 	/* or if it is already an executable */
 	path = "PATH="; /* getenv rewrite */

@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 			fflush(stdout); /* Force immediate display of the prompt */
 		}
 		line = read_line(); /* Get the line from the standard input */
-		if ((line == NULL) && (isatty(STDIN_FILENO == 1))) /* EOF (Ctrl+D) */
+		if ((line == NULL) && (isatty(STDIN_FILENO) == 1)) /* EOF (Ctrl+D) */
 			break;
 		command_count++; /* Count the number of command passed */
 		args = split_line(line); /* Tokenize the line */

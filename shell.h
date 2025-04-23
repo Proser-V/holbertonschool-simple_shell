@@ -45,6 +45,7 @@ int exit_built(char *line, char **args, int cmd_count, char *nom_prog);
 
 /* Helpers */
 int is_builtin(char **args);
+int isposnumber(char *num_str);
 int _atoi(char *s);
 int handle_builtin(char **args, int *exit_status);
 
