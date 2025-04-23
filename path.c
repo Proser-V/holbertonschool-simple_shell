@@ -32,7 +32,7 @@ char *find_command_path(char *command, int *exit_status)
 			return (NULL);
 	}
 	path = _getpath(); /* Get the PATH string */
-	if (path == NULL)
+	if (path == NULL || path[0] == '\0')
 	{
 		free(path);
 		return (NULL);

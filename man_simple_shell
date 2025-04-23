@@ -1,42 +1,75 @@
-.TH SIMPLESHELL 1 "April 2025" "Version 1.0" "User Manual"
-
+.TH SIMPLE_SHELL 1 "April 2025" "simple_shell.v0.02" "simple_shell man page"
 .SH NAME
-simpleshell \- a minimalist Unix command-line interpreter written in C.
-
+.TP
+.BR "simple_shell" " \- a minimalist Unix command-line interpreter written in C."
 .SH SYNOPSIS
-.B simpleshell
-.RI [file]
-
+.B simple_shell
 .SH DESCRIPTION
-.B simpleshell
-is a basic shell that reads commands from standard input or a file and executes them using the Unix system.
-
-Features include:
-
+.B simple_shell
+.R is a basic command interpreter that reads commands from the standard input
+and executes them.
+.SH Overview
+.B simple_shell
+.R attempts to emulate the behavior of 
+.BR "sh".
+.R It ignores command-line options and arguments.
+.R It has two modes of execution: interactive and non-interactive.
+.R Interactive mode is the mode by default, it is initiated by executing the 
+.B simple_shell
+.R program.
+.R Non-interactive mode is entered when commands piped into the standard input of 
+.BR "simple_shell".
+.IR "In interactive mode" ", a prompt is displayed" 
+.R and the program awaits input from the user.
+.R Once a command is executed and an output (if any) is displayed, a new prompt is
+displayed and a new input is awaited.
+.R To exit the interactive mode and terminate the program two methods are
+available: 
+.B EOF
+.RB "emulation (" "Ctrl+D" ") and the built-in command exit."
+.IR "In non-interactive mode" ", no prompt is made, the commands are executed,"
+.R output (if any) is displayed, and the program terminates.
+.PP
+.R Features include:
+.br
+.RS
 .TP
-\- Execution of commands with or without arguments.
+\- The first word (token) is taken to be a command, any following words will be taken as arguments for that command.
 .TP
-\- Support for absolute and relative paths.
+\- If the command is not recognized to be a program, or if its arguments are non recognized, an error message is displayed.
 .TP
-\- Environment variable handling (e.g. PATH).
+\- Execution of programs with or without arguments.
+.TP
+\- Accepts absolute and relative paths to the program.
+.TP
+\- Uses the PATH environment variable to search for the program if the calling command was not a path to it (relative or absolute).
+.TP
+\- Arguments and options are ignored.
 .TP
 \- Built-in commands:
 .BR exit ,
 .BR env.
-
+.RE
 .SH OPTIONS
-This shell does not accept command-line options. If a file is provided as an argument, the shell reads commands from the file instead of standard input.
-
+This shell does not accept command-line options.
 .SH BUILT-IN COMMANDS
 .TP
 .B exit
-Exit the shell with the specified status (default is 0).
+.R Exits the shell normally.
+.R If an exit status (an integer number) is given (usage:
+.B exit int_number
+.R ) it exits with the specified status.
 .TP
 .B env
-Print the current environment.
+.R Print the current environment (a list of all the environment variables).
 
+.SH EXIT STATUS
+.R It returns the exit status of the executed command in non-interactive mode.
+.R In interactive mode it returns the last non-zero exit value of the executed commands, and zero otherwise.
 .SH FUNCTIONING
-The following table summarizes the internal workflow of the shell:
+The following table summarizes the internal workflow of 
+.B simple_shell
+.R :
 
 .TS
 box, tab(:);
@@ -44,61 +77,87 @@ c | l.
 Step : Description
 _
 1 : Display the prompt (in interactive mode)
-2 : Read user input using getline
-3 : Tokenize the input line using strtok
-4 : Search for the executable using PATH directories
-5 : Create a child process using fork()
-6 : Execute the command with execve()
-7 : Wait for the child process to finish using wait()
+2 : Read user input using \fBgetline\fR
+3 : Tokenize the input line using \fBstrtok\fR
+4 : Find the corresponding executable
+5 : Create a child process using \fBfork\fR
+6 : Use the child to execute the command with \fBexecve\fR
+7 : Wait for the child process to finish using \fBwait\fR
+8 : Return to step 1 if in interactive mode, terminate 
+	: program otherwise 
 .TE
 
 .SH EXAMPLES
 .TP
 Run the shell in interactive mode:
 .EX
-$ ./simpleshell
+user$ ./simple_shell
 $
 .EE
 
 .TP
 Execute a simple command:
 .EX
-$ ls -l
-(total output from 'ls -l')
+user$ ./simple_shell
+$ pwd
+/home/user
+$
+.EE
+
+.TP
+Execute a command with arguments:
+.EX
+user$ ./simple_shell
+$ ls -a
+. .. .git README.md main.c main.h 
+$
 .EE
 
 .TP
 Use a built-in command:
 .EX
+user$ ./simple_shell
 $ env
-(PATH and other environment variables printed)
+(full list of environment variables)
+$
 .EE
 
 .TP
 Exit the shell with a specific status:
 .EX
+user$ ./simple_shell
 $ exit 2
+user$
 .EE
 
 .TP
-Run shell in non-interactive mode with a file:
+Run shell in non-interactive mode:
 .EX
-$ ./simpleshell commands.txt
-.EE
-
-Where `commands.txt` contains:
-.EX
-ls
-pwd
-exit
+user$ echo "pwd" | ./simple_shell
+/home/user
+user$
 .EE
 
 .SH FILES
-No configuration files are used. The shell is fully self-contained.
+No external files are used.
 
 .SH AUTHORS
-Developed by [YOUR NAME] as part of the Holberton program.
+Developed by Valentin DUMONT, Hamza HAMMADI, and Xavier LAFORGUE as part of the Holberton School Web developer track.
+See https://github.com/Proser-V/holbertonschool-simple_shell.
 
+.SH REFERENCES
+Check the exhaustively detailed man page of the traditional shell, which our 
+.B simple_shell 
+.R tries to emulate, with
+.TP
+.RS
+.B man 1 sh
+.RE
+.SH CONFORMING TO
+.PP
+.IR C89 .
+.SH COMPILED ON
+.I gcc
 .SH SEE ALSO
 .BR sh (1),
 .BR bash (1),
