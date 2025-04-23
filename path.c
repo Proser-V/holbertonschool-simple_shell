@@ -19,7 +19,7 @@ char *find_command_path(char *command, int *exit_status)
 	char *path, *dir;
 	char buff[1024]; /* Local buffer */
 
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	if (command[0] == '/' || command[0] == '.')
 	{
 		if (access(command, F_OK | X_OK) == 0) /* Executable command found */
 			return (strdup(command));
