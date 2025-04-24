@@ -4,33 +4,32 @@
 A pedagogical exercise in recreating shell's essential mechanisms, following Holberton's project-based learning approach.
 
 ## Progression
-Our shell can handle the commands existing in the "PATH" envrionnement variable, and the following built-ins : ```exit```, ```env```.
+Our shell can handle the commands existing in the "PATH" environment variable and the following built-ins : ```exit```, ```env```.
 
 It could be improved by :
-- Handleing ```Ctrl+c```, the shell should not quit when the input is ```^C```,
-- Implementing more built-ins functions like ```setenv```, ```unsetenv```, ```cd```, ```help```, ```alias``` and the ```history```,
-- Handleing the command separator ```;```,
-- Handleing the ```&&``` and ```||``` logical operators,
-- Handleing variables remplacement,
-- Handleing ```$$``` and ```$?``` variables,
-- Handleing comments with ```#```,
-- Handleing files for input.
+- Handling ```Ctrl+C```, the shell should not quit when it is used,
+- Implementing more built-ins functions like ```setenv```, ```unsetenv```, ```cd```, ```help```, ```alias``` and ```history```,
+- Handling the command separator ```;```,
+- Handling the ```&&``` and ```||``` logical operators,
+- Handling variable replacement,
+- Handling ```$$``` and ```$?``` variables,
+- Handling comments with ```#```,
+- Handling files as input.
 
 ## Compilation Command
 ```gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh```
 
 ## Requirements
-- Editors: ```vi``` using VSCODE,
-- Compile on Ubuntu 20.04 LTS,
+- Compilation on Ubuntu 20.04 LTS,
 - To compile we will use ```gcc``` using the options ```-Wall -Werror -Wextra -pedantic -std=gnu89```,
-- Our code use the Betty style,
+- Our code complies with the Betty style,
 - No more than 5 functions per file,
 - All our header files are include guarded,
 - We use system calls only when we need to.
 - The output and error output are the same as ```sh``` in most cases.
 
-## Exemples and testing
-Here are some exemples of the use of our shell :
+## Examples
+Here are some examples of the use of our shell :
 
 ```
 valentin@Valou-PC:~/holbertonschool-simple_shell$ ./hsh
@@ -43,11 +42,15 @@ valentin@Valou-PC:~/holbertonschool-simple_shell$
 ```
 
 ## Man page
-The man page provides a detailed explanation of the function. To see the full documentation, run our man page like this: ```man hsh```
+The man page provides a detailed explanation of the function. To see the full
+documentation, read our man page with: 
+```
+man ./man_1_simple_shell
+```
 
 ## Testing
-We have made a testing program to test different cases of command and error code handeling.
-Here are some exemples of output from the test:
+We have made a testing program to test different cases of command and error code handling.
+Here are some examples of output from the test:
 
 ```
 Command: unknowcmd
@@ -74,13 +77,13 @@ Shell output:
 TEST ✅ PASSED
 ```
 
-We also used valgrind to be sure there is no memory leaks or issues :
+We also used valgrind to be sure there are no memory leaks :
 ```valgrind ./hsh```
 
 ## Flowchart
 ![alt text](Shared_diagram-VD.jpg)
 
 ## Authors
-* Xavier Laforgue https://github.com/XavierLaforgue
-* Hamza Hammadi https://github.com/Hamza-coder3011
-* Valentin Dumont https://github.com/Proser-V
+* Valentin Dumont : https://github.com/Proser-V
+* Hamza Hammadi : https://github.com/Hamza-coder3011
+* Xavier Laforgue : https://github.com/XavierLaforgue
