@@ -1,11 +1,27 @@
 ---- TEST Simple Shell 0.2+ ----
 [1] /bin/ls
-./hsh: 1: /bin/ls: not found
-Exit: 127
+AUTHORS
+README.md
+Shared_diagram-VD.jpg
+Test
+builtin.c
+exec.c
+helper.c
+hsh
+main.c
+man_simple_shell
+path.c
+read.c
+results.log
+shell.h
+split.c
+test_shell_02.sh
+testbin
+Exit: 0
 
 [2] ./mytest
-./hsh: 1: ./mytest: not found
-Exit: 127
+hello
+Exit: 0
 
 [3] ./mytest
 ./hsh: 1: ./mytest: Permission denied
@@ -20,11 +36,11 @@ Exit: 127
 Exit: 127
 
 [6] fakecmd
-./hsh: 1: fakecmd: not found
-Exit: 127
+./hsh: 1: fakecmd: Permission denied
+Exit: 126
 
 [7] okcmd
-./hsh: 1: okcmd: not found
-Exit: 127
+okay
+Exit: 0
 
 ---- DONE ----
