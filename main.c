@@ -16,6 +16,51 @@ void print_prompt(void)
 }
 
 /**
+ * non_inter - Handle non-interractive mode of shell.
+ *
+ * @args: Tokenized string passed by the user.
+ * @line: String containing the full command passed by the user.
+ * @cmd_cnt: The number of commands passed to the program.
+ * @nom_cmd: The name of the program (Shell) from main.
+ * @e_stat: Pointer to the exit status to set.
+ *
+ * Return: 0 if all commands succeeded, or the last error code if a command
+ *			failed.
+ */
+
+int non_inter(char **args, char *line, char *nom_cmd, int cmd_cnt, int *e_stat)
+{
+	if ((isatty(STDIN_FILENO) == 0))
+	{
+		while (1)
+		{
+			line = read_line(); /* Get the line from the standard input */
+			if (line == NULL)
+				break;
+			cmd_cnt++; /* Count the number of command passed */
+			args = split_line(line); /* Tokenize the line */
+			if (args != NULL && args[0] != NULL)
+			{
+				if (strcmp(args[0], "exit") == 0) /* Exit called ? */
+				{
+					if (args[1] == NULL) /* Exit without argument */
+					{
+						free(args);
+						free(line);
+						return (*e_stat);
+					} /* Exit the loop if "exit" called without argument */
+					*e_stat = exit_built(line, args, cmd_cnt, nom_cmd);
+				}
+				execute(args, cmd_cnt, nom_cmd, e_stat);
+			}
+			free(args);
+			free(line);
+		}
+	}
+	return (*e_stat);
+}
+
+/**
  * main - Entry point to a simple shell program.
  *
  * Description: This program can be used to interactively execute commands and
@@ -37,39 +82,37 @@ void print_prompt(void)
 int main(__attribute__((unused)) int argc, char *argv[])
 {
 	int exit_status = 0;
-	char **args;
-	char *line;
+	char **args = NULL;
+	char *line = NULL;
 	int command_count = 0;
 
-	while (1)
-	{
-		print_prompt();
-		line = read_line(); /* Get the line from the standard input */
-		if ((line == NULL) && (isatty(STDIN_FILENO) == 1)) /* EOF (Ctrl+D) */
-			break;
-		command_count++; /* Count the number of command passed */
-		args = split_line(line); /* Tokenize the line */
-		if (args != NULL && args[0] != NULL)
+	exit_status = non_inter(args, line, argv[0], command_count, &exit_status);
+	if ((isatty(STDIN_FILENO) == 1))
+		while (1)
 		{
-			if (strcmp(args[0], "exit") == 0) /* Exit called ? */
+			print_prompt();
+			line = read_line(); /* Get the line from the standard input */
+			if ((line == NULL) && (isatty(STDIN_FILENO) == 1)) /* EOF (Ctrl+D) */
+				break;
+			command_count++; /* Count the number of command passed */
+			args = split_line(line); /* Tokenize the line */
+			if (args != NULL && args[0] != NULL)
 			{
-				if (args[1] == NULL) /* Exit without argument */
+				if (strcmp(args[0], "exit") == 0) /* Exit called ? */
 				{
-					free(args);
-					free(line);
-					return (exit_status);
-				} /* Exit the loop if "exit" called without argument */
-				exit_status = exit_built(line, args, command_count, argv[0]);
-				if (isatty(STDIN_FILENO) == 0) /* if error while "exit" */
-					break; /* End the non-interractive mode */
-				continue; /* Else, continue the loop */
+					if (args[1] == NULL) /* Exit without argument */
+					{
+						free(args);
+						free(line);
+						return (exit_status);
+					} /* Exit the loop if "exit" called without argument */
+					exit_status = exit_built(line, args, command_count, argv[0]);
+					continue; /* Else, continue the loop */
+				}
+				execute(args, command_count, argv[0], &exit_status);
 			}
-			execute(args, command_count, argv[0], &exit_status);
+			free(args);
+			free(line);
 		}
-		free(args);
-		free(line);
-		if (isatty(STDIN_FILENO) == 0)
-			break; /* End the non-interractive mode */
-	}
 	return (exit_status);
 }

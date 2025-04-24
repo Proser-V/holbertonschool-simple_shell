@@ -32,7 +32,8 @@ char *read_line(void)
 			exit(errno);
 		}
 		errno = errno_tmp; /* errno set as before */
-		printf("\n");
+		if (isatty(STDIN_FILENO) != 0)
+			printf("\n");
 		free(line);
 		return (NULL);
 	}
