@@ -34,14 +34,12 @@ void print_prompt(void)
  *			failed.
  */
 
-int main(int argc, char *argv[])
+int main(__attribute__((unused)) int argc, char *argv[])
 {
 	int exit_status = 0;
 	char **args;
 	char *line;
 	int command_count = 0;
-
-	(void)argc; /* argc unused */
 
 	while (1)
 	{
