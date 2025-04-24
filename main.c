@@ -50,6 +50,7 @@ int non_inter(char **args, char *line, char *nom_cmd, int cmd_cnt, int *e_stat)
 						return (*e_stat);
 					} /* Exit the loop if "exit" called without argument */
 					*e_stat = exit_built(line, args, cmd_cnt, nom_cmd);
+					break;
 				}
 				execute(args, cmd_cnt, nom_cmd, e_stat);
 			}

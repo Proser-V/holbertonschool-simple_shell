@@ -6,31 +6,31 @@
 .B simple_shell
 .SH DESCRIPTION
 .B simple_shell
-.R is a basic command interpreter that reads commands from the standard input
+is a basic command interpreter that reads commands from the standard input
 and executes them.
 .SH Overview
 .B simple_shell
-.R attempts to emulate the behavior of 
+attempts to emulate the behavior of 
 .BR "sh".
-.R It ignores command-line options and arguments.
-.R It has two modes of execution: interactive and non-interactive.
-.R Interactive mode is the mode by default, it is initiated by executing the 
+It ignores command-line options and arguments.
+It has two modes of execution: interactive and non-interactive.
+Interactive mode is the mode by default, it is initiated by executing the 
 .B simple_shell
-.R program.
-.R Non-interactive mode is entered when commands piped into the standard input of 
+program.
+Non-interactive mode is entered when commands piped into the standard input of 
 .BR "simple_shell".
 .IR "In interactive mode" ", a prompt is displayed" 
-.R and the program awaits input from the user.
-.R Once a command is executed and an output (if any) is displayed, a new prompt is
+and the program awaits input from the user.
+Once a command is executed and an output (if any) is displayed, a new prompt is
 displayed and a new input is awaited.
-.R To exit the interactive mode and terminate the program two methods are
+To exit the interactive mode and terminate the program two methods are
 available: 
 .B EOF
-.RB "emulation (" "Ctrl+D" ") and the built-in command exit."
+.RB "emulation (" "Ctrl+D" ") and the built-in command " "exit".
 .IR "In non-interactive mode" ", no prompt is made, the commands are executed,"
-.R output (if any) is displayed, and the program terminates.
+output (if any) is displayed, and the program terminates.
 .PP
-.R Features include:
+Features include:
 .br
 .RS
 .TP
@@ -55,36 +55,36 @@ This shell does not accept command-line options.
 .SH BUILT-IN COMMANDS
 .TP
 .B exit
-.R Exits the shell normally.
-.R If an exit status (an integer number) is given (usage:
+Exits the shell normally.
+If an exit status (an integer number) is given (usage:
 .B exit int_number
-.R ) it exits with the specified status.
+) it exits with the specified status.
 .TP
 .B env
-.R Print the current environment (a list of all the environment variables).
+Print the current environment (a list of all the environment variables).
 
 .SH EXIT STATUS
-.R It returns the exit status of the executed command in non-interactive mode.
-.R In interactive mode it returns the last non-zero exit value of the executed commands, and zero otherwise.
+It returns the exit status of the executed command in non-interactive mode.
+In interactive mode it returns the last non-zero exit value of the executed commands, and zero otherwise.
 .SH FUNCTIONING
 The following table summarizes the internal workflow of 
 .B simple_shell
-.R :
+:
 
 .TS
 box, tab(:);
-c | l.
-Step : Description
+c | l | l.
+Step : Description (Built-in function) : Description (External function)
 _
-1 : Display the prompt (in interactive mode)
-2 : Read user input using \fBgetline\fR
-3 : Tokenize the input line using \fBstrtok\fR
-4 : Find the corresponding executable
-5 : Create a child process using \fBfork\fR
-6 : Use the child to execute the command with \fBexecve\fR
-7 : Wait for the child process to finish using \fBwait\fR
-8 : Return to step 1 if in interactive mode, terminate 
-	: program otherwise 
+1 : Display the prompt (in interactive mode) : Display the prompt (in interactive mode)
+2 : Read user input using \fBgetline\fR : Read user input using \fBgetline\fR
+3 : Tokenize the input line using \fBstrtok\fR : Tokenize the input line using \fBstrtok\fR
+4 : Find the built-in corresponding to the command : Find the corresponding executable
+5 : Execute directly the function : Create a child process using \fBfork\fR
+6 : If "exit" found, end the program directly : Use the child to execute the command with \fBexecve\fR
+7 : Else return to step 1 if in interactive mode : Wait for the child process to finish using \fBwait\fR
+8 :  : Return to step 1 if in interactive mode, terminate
+  :  : program otherwise
 .TE
 
 .SH EXAMPLES
@@ -146,13 +146,10 @@ Developed by Valentin DUMONT, Hamza HAMMADI, and Xavier LAFORGUE as part of the 
 See https://github.com/Proser-V/holbertonschool-simple_shell.
 
 .SH REFERENCES
-Check the exhaustively detailed man page of the traditional shell, which our 
-.B simple_shell 
-.R tries to emulate, with
-.TP
-.RS
-.B man 1 sh
-.RE
+Check the exhaustively detailed man page of the traditional shell, which our
+.B simple_shell
+tries to emulate, with
+.BR "man 1 sh".
 .SH CONFORMING TO
 .PP
 .IR C89 .
