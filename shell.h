@@ -50,5 +50,7 @@ int handle_builtin(char **args, int *exit_status);
 char *_getpath(void);
 void print_error(char **args, int cmd_count, char *nom_prog, int *exit_status);
 char *relative_path(char *command, int *exit_status);
+void print_prompt(void);
+int no_inter(char **args, char *line, char *nom_cmd, int cmd_cnt, int *e_stat);
 
 #endif

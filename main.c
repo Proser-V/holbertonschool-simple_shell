@@ -16,7 +16,7 @@ void print_prompt(void)
 }
 
 /**
- * non_inter - Handle non-interractive mode of shell.
+ * no_inter - Handle non-interractive mode of shell.
  *
  * @args: Tokenized string passed by the user.
  * @line: String containing the full command passed by the user.
@@ -28,7 +28,7 @@ void print_prompt(void)
  *			failed.
  */
 
-int non_inter(char **args, char *line, char *nom_cmd, int cmd_cnt, int *e_stat)
+int no_inter(char **args, char *line, char *nom_cmd, int cmd_cnt, int *e_stat)
 {
 	if ((isatty(STDIN_FILENO) == 0))
 	{
@@ -87,13 +87,13 @@ int main(__attribute__((unused)) int argc, char *argv[])
 	char *line = NULL;
 	int command_count = 0;
 
-	exit_status = non_inter(args, line, argv[0], command_count, &exit_status);
+	exit_status = no_inter(args, line, argv[0], command_count, &exit_status);
 	if ((isatty(STDIN_FILENO) == 1))
 		while (1)
 		{
 			print_prompt();
 			line = read_line(); /* Get the line from the standard input */
-			if ((line == NULL) && (isatty(STDIN_FILENO) == 1)) /* EOF (Ctrl+D) */
+			if (line == NULL) /* EOF (Ctrl+D) */
 				break;
 			command_count++; /* Count the number of command passed */
 			args = split_line(line); /* Tokenize the line */
@@ -108,7 +108,7 @@ int main(__attribute__((unused)) int argc, char *argv[])
 						return (exit_status);
 					} /* Exit the loop if "exit" called without argument */
 					exit_status = exit_built(line, args, command_count, argv[0]);
-					continue; /* Else, continue the loop */
+					continue; /* Continue the loop on exit error */
 				}
 				execute(args, command_count, argv[0], &exit_status);
 			}
