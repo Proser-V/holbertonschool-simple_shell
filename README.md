@@ -38,7 +38,7 @@ It could be improved by :
 ## Requirements
 We have been required to make our code compilation-ready under systems with 
 Ubuntu 20.04 LTS and using gcc as a compiler. Additionally, the compiler would
-use the flags -Wall -Werror -Wextra -pedantic -std=gnu89 and all our codes must
+use the flags ```-Wall -Werror -Wextra -pedantic -std=gnu89``` and all our codes must
 follow the Betty coding style (which limits the length of our programs, among 
 other things).
 Moreover, we may not have more than 5 functions per file, all header files must
