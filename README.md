@@ -36,13 +36,13 @@ It could be improved by :
 ```gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell```
 
 ## Requirements
-We have been required to make our code compilation--ready under systems with 
+We have been required to make our code compilation-ready under systems with 
 Ubuntu 20.04 LTS and using gcc as a compiler. Additionally, the compiler would
 use the flags -Wall -Werror -Wextra -pedantic -std=gnu89 and all our codes must
 follow the Betty coding style (which limits the length of our programs, among 
 other things).
 Moreover, we may not have more than 5 functions per file, all header files must
-be include-guarded, and system calls must e used only when necessary.
+be include-guarded, and system calls must be used only when necessary.
 The output and error output should be the same as those of ```sh``` in most
 cases.
 
