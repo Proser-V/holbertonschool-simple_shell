@@ -6,7 +6,7 @@
 .B simple_shell
 .SH DESCRIPTION
 .B simple_shell
-.R is a basic command interpreter that reads commands from the standard input
+is a basic command interpreter that reads commands from the standard input
 and executes them.
 .SH Overview
 .B simple_shell
