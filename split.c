@@ -46,4 +46,3 @@ char **split_line(char *line)
 	args[index] = NULL; /* Put a NULL at end of the array of strings */
 	return (args);
 }
-
