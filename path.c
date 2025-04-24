@@ -77,6 +77,7 @@ char *find_command_path(char *command, int *exit_status)
 		dir = strtok(NULL, ":");
 	}
 	free(path);
-	*exit_status = 127;
+	if (*exit_status != 126)
+		*exit_status = 127;
 	return (NULL); /* Command not found */
 }

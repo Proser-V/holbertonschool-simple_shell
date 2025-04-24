@@ -16,6 +16,7 @@ results.log
 shell.h
 split.c
 test_shell_02.sh
+testbin
 Exit: 0
 
 [2] ./mytest
@@ -23,8 +24,8 @@ hello
 Exit: 0
 
 [3] ./mytest
-./hsh: 1: ./mytest: not found
-Exit: 127
+./hsh: 1: ./mytest: Permission denied
+Exit: 126
 
 [4] ./mytest
 ./hsh: 1: ./mytest: not found
