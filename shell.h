@@ -49,5 +49,6 @@ int _atoi(char *s);
 int handle_builtin(char **args, int *exit_status);
 char *_getpath(void);
 void print_error(char **args, int cmd_count, char *nom_prog, int *exit_status);
+char *relative_path(char *command, int *exit_status);
 
 #endif
