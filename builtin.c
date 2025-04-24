@@ -48,7 +48,9 @@ void print_env(char *option)
 
 	(void)option; /* Option non-implemeted yet */
 
-	while (environ[index] != NULL) /* Print all the environnement variables */
+	if (environ == NULL)
+		return;
+	while (environ[index] != NULL) /* Print the environnement variables */
 	{
 		printf("%s\n", environ[index]);
 		index++;

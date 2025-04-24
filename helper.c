@@ -88,6 +88,8 @@ char *_getpath(void)
 	char *final_path = NULL;
 	int index = 0;
 
+	if (environ == NULL)
+		return (NULL);
 	while (environ[index] != NULL && strncmp(environ[index], "PATH=", 5) != 0)
 		index++;
 
